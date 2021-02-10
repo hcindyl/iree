@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "iree/hal/buffer.h"
+#include "third_party/gpus/cuda/include/cuda.h"
 
 #include <inttypes.h>
 

@@ -82,6 +82,8 @@ cc_library(
         "@com_google_absl//absl/strings",
         "@com_google_absl//absl/types:span",
         "@half//:includes",
+        "@iree_cuda_headers//:cuda_headers",
+        "@iree_cuda_headers//:cudart_static",
     ],
 )
 
