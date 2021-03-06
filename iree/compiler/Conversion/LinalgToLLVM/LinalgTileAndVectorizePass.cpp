@@ -90,6 +90,21 @@ struct PromoteMatmulSubviewsPattern
 };
 }  // namespace
 
+// Hack..fold sexti to vector.contract
+
+namespace {
+struct FoldSEXTIOpIntoVectorContract : public OpRewritePattern<SignExtendIOp> {
+ public:
+  using OpRewritePattern<SignExtendIOp>::OpRewritePattern;
+
+  LogicalResult matchAndRewrite(SignExtendIOp signExOp,
+                                PatternRewriter &rewriter) const override {
+    rewriter.replaceOp(signExOp, signExOp.value());
+    return success();
+  }
+};
+}  // namespace
+
 namespace {
 
 // TODO(ataei): Refactor this into a common utility with LinalgToSPIRV.
@@ -226,7 +241,7 @@ void TileAndVectorizeWorkgroups::runOnFunction() {
   });
 
   // Apply vector specific operation lowering.
-  {
+  /*{
     vector::VectorTransformsOptions vectorTransformsOptions =
         vector::VectorTransformsOptions().setVectorTransformsOptions(
             vector::VectorContractLowering::OuterProduct);
@@ -237,6 +252,17 @@ void TileAndVectorizeWorkgroups::runOnFunction() {
             vectorTransformsOptions, context);
     if (failed(applyPatternsAndFoldGreedily(
             funcOp, std::move(vectorContractLoweringPatterns)))) {
+      return signalPassFailure();
+    }
+
+
+  }*/
+
+  // Hack: remove SignExtOp
+  {
+    OwningRewritePatternList patterns;
+    patterns.insert<FoldSEXTIOpIntoVectorContract>(context);
+    if (failed(applyPatternsAndFoldGreedily(funcOp, std::move(patterns)))) {
       return signalPassFailure();
     }
   }

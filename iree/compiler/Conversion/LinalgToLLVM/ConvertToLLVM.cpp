@@ -14,6 +14,7 @@
 
 #include "iree/compiler/Conversion/CodegenUtils/FunctionUtils.h"
 #include "iree/compiler/Conversion/LinalgToLLVM/Passes.h"
+#include "iree/compiler/Conversion/VectorToLLVM/Passes.h"
 #include "iree/compiler/Dialect/HAL/IR/HALDialect.h"
 #include "iree/compiler/Dialect/HAL/IR/HALOps.h"
 #include "iree/compiler/Dialect/IREE/IR/IREEDialect.h"
@@ -650,6 +651,7 @@ void ConvertToLLVMPass::runOnOperation() {
   });
 
   OwningRewritePatternList patterns;
+  populateMatmul_4x4x4_i8_i8_i32ToAArch64InlineAsm(converter, patterns);
   populateAffineToStdConversionPatterns(patterns, &getContext());
   populateLoopToStdConversionPatterns(patterns, &getContext());
   populateExpandTanhPattern(patterns, &getContext());

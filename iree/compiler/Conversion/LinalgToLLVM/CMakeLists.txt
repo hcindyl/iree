@@ -52,6 +52,7 @@ iree_cc_library(
     iree::compiler::Conversion::HLOToHLO
     iree::compiler::Conversion::HLOToLinalg
     iree::compiler::Conversion::LLVMToLLVM
+    iree::compiler::Conversion::VectorToLLVM
     iree::compiler::Dialect::HAL::IR
     iree::compiler::Dialect::HAL::IR::HALDialect
     iree::compiler::Dialect::IREE::IR
