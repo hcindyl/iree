@@ -47,6 +47,9 @@ set(RISCV_LINKER_FLAGS_EXE)
 
 if(RISCV_CPU STREQUAL "rv64")
   list(APPEND RISCV_COMPILER_FLAGS "-march=rv64gc -mabi=lp64d")
+elseif(RISCV_CPU STREQUAL "rv32")
+  list(APPEND RISCV_COMPILER_FLAGS "-march=rv32gc -mabi=ilp32d")
+  set(RISCV_LINKER_FLAGS "${RISCV_LINKER_FLAGS} -latomic")
 endif()
 
 set(CMAKE_C_FLAGS             "${RISCV_COMPILER_FLAGS} ${CMAKE_C_FLAGS}")

@@ -32,6 +32,11 @@
 #include <sys/syscall.h>
 #include <unistd.h>
 
+#if defined(__NR_futex_time64) && !defined(__NR_futex)
+#define __NR_futex __NR_futex_time64
+#endif
+
+
 // Oh Android...
 #ifndef SYS_futex
 #define SYS_futex __NR_futex
