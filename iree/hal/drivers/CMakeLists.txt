@@ -6,6 +6,10 @@
 
 # Doesn't use bazel_to_cmake because of custom configuration vars
 
+if (${IREE_BUILD_BAREMETAL})
+  return()
+endif()
+
 set(IREE_HAL_DRIVER_MODULES)
 if(${IREE_HAL_DRIVER_CUDA})
   list(APPEND IREE_HAL_DRIVER_MODULES iree::hal::cuda::registration)

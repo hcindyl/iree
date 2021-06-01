@@ -293,7 +293,7 @@ iree_cc_test(
     iree::testing::gtest
     iree::testing::gtest_main
 )
-
+if (NOT ${IREE_BUILD_BAREMETAL})
 iree_cc_library(
   NAME
     status_internal
@@ -310,7 +310,7 @@ iree_cc_library(
     iree::base::logging
   PUBLIC
 )
-
+endif()
 iree_cc_library(
   NAME
     synchronization
@@ -358,7 +358,7 @@ iree_cc_test(
     iree::testing::gtest
     iree::testing::gtest_main
 )
-
+if (NOT ${IREE_BUILD_BAREMETAL})
 iree_cc_library(
   NAME
     threading
@@ -425,5 +425,5 @@ iree_cc_test(
     iree::testing::gtest
     iree::testing::gtest_main
 )
-
+endif()
 ### BAZEL_TO_CMAKE_PRESERVES_ALL_CONTENT_BELOW_THIS_LINE ###

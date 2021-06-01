@@ -10,6 +10,7 @@
 
 iree_add_all_subdirs()
 
+if (NOT ${IREE_BUILD_BAREMETAL})
 iree_cc_library(
   NAME
     event_pool
@@ -26,7 +27,7 @@ iree_cc_library(
     iree::base::tracing
   PUBLIC
 )
-
+endif()
 iree_cc_library(
   NAME
     executable_library
@@ -117,6 +118,9 @@ iree_cc_library(
     iree::hal
   PUBLIC
 )
+if (${IREE_BUILD_BAREMETAL})
+  return()
+endif()
 
 iree_cc_library(
   NAME

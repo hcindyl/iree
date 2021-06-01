@@ -43,6 +43,7 @@ option(IREE_BUILD_TENSORFLOW_ALL "Builds all TensorFlow compiler frontends." OFF
 option(IREE_BUILD_TENSORFLOW_COMPILER "Builds TensorFlow compiler frontend." OFF)
 option(IREE_BUILD_TFLITE_COMPILER "Builds the TFLite compiler frontend." OFF)
 option(IREE_BUILD_XLA_COMPILER "Builds TensorFlow XLA compiler frontend." OFF)
+option(IREE_BUILD_BAREMETAL "Builds IREE in baremetal configuration." OFF)
 
 set(IREE_HAL_DRIVERS_TO_BUILD "all"
   CACHE STRING "Semicolon-separated list of HAL drivers to build, or \"all\".")
@@ -378,16 +379,20 @@ endif()
 include(external_cc_library)
 include(flatbuffer_c_library)
 
-add_subdirectory(third_party/benchmark EXCLUDE_FROM_ALL)
+if (NOT ${IREE_BUILD_BAREMETAL})
+  add_subdirectory(third_party/benchmark EXCLUDE_FROM_ALL)
+endif()
 add_subdirectory(build_tools/third_party/cuda EXCLUDE_FROM_ALL)
 add_subdirectory(build_tools/third_party/flatcc EXCLUDE_FROM_ALL)
 add_subdirectory(build_tools/third_party/renderdoc_api EXCLUDE_FROM_ALL)
 add_subdirectory(build_tools/third_party/vulkan_memory_allocator EXCLUDE_FROM_ALL)
 add_subdirectory(build_tools/third_party/stblib EXCLUDE_FROM_ALL)
 
-add_subdirectory(third_party/cpuinfo EXCLUDE_FROM_ALL)
 add_subdirectory(third_party/googletest EXCLUDE_FROM_ALL)
+if (NOT ${IREE_BUILD_BAREMETAL})
+add_subdirectory(third_party/cpuinfo EXCLUDE_FROM_ALL)
 add_subdirectory(third_party/abseil-cpp EXCLUDE_FROM_ALL)
+endif()
 add_subdirectory(third_party/flatcc EXCLUDE_FROM_ALL)
 add_subdirectory(third_party/vulkan_headers EXCLUDE_FROM_ALL)
 
@@ -434,7 +439,13 @@ endif()
 #-------------------------------------------------------------------------------
 # IREE top-level libraries
 #-------------------------------------------------------------------------------
-
+if (${IREE_BUILD_BAREMETAL})
+add_subdirectory(iree/base)
+add_subdirectory(iree/hal)
+add_subdirectory(iree/modules)
+add_subdirectory(iree/schemas)
+add_subdirectory(iree/vm)
+else()
 add_subdirectory(build_tools/embed_data/)
 
 add_subdirectory(iree/base)
@@ -461,7 +472,7 @@ if(${IREE_BUILD_COMPILER})
 endif()
 
 add_subdirectory(iree/tools)
-
+endif()
 # Order constraint: The python bindings install tools targets from iree/tools
 # and must come after it.
 if(${IREE_BUILD_PYTHON_BINDINGS})

@@ -26,7 +26,7 @@
 // https://en.cppreference.com/w/c/memory/aligned_alloc
 #define iree_aligned_alloc(alignment, size) aligned_alloc(alignment, size)
 #define iree_aligned_free(p) free(p)
-#elif _POSIX_C_SOURCE >= 200112L
+#elif _POSIX_C_SOURCE >= 200112L && !defined(IREE_PLATFORM_GENERIC)
 // https://pubs.opengroup.org/onlinepubs/9699919799/functions/posix_memalign.html
 static inline void* iree_aligned_alloc(size_t alignment, size_t size) {
   void* ptr = NULL;

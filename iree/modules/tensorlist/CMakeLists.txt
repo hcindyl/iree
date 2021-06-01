@@ -10,6 +10,10 @@
 
 iree_add_all_subdirs()
 
+if (${IREE_BUILD_BAREMETAL})
+  return()
+endif()
+
 iree_cc_library(
   NAME
     native_module

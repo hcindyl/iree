@@ -58,7 +58,7 @@ iree_cc_library(
     iree::base::internal::flags
   PUBLIC
 )
-
+if (NOT ${IREE_BUILD_BAREMETAL})
 iree_cc_library(
   NAME
     signature_parser
@@ -104,7 +104,7 @@ iree_cc_test(
     iree::testing::gtest
     iree::testing::gtest_main
 )
-
+endif()
 iree_cc_test(
   NAME
     string_view_test

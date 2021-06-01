@@ -306,19 +306,29 @@ if(ANDROID)
   )
 endif()
 
-iree_select_compiler_opts(IREE_DEFAULT_LINKOPTS
-  ALL
-    # TODO(benvanik): remove the ABSL usage here; we aren't abseil.
-    "${ABSL_DEFAULT_LINKOPTS}"
-  CLANG_OR_GCC
-    # Required by all modern software, effectively:
-    "-ldl"
-    "-lm"
-    ${_IREE_PTHREADS_LINKOPTS}
-    ${_IREE_LOGGING_LINKOPTS}
-  MSVC
-    "-natvis:${CMAKE_SOURCE_DIR}/iree/iree.natvis"
-)
+if (${IREE_BUILD_BAREMETAL})
+  iree_select_compiler_opts(IREE_DEFAULT_LINKOPTS
+    CLANG_OR_GCC
+      "-lm"
+      ${_IREE_LOGGING_LINKOPTS}
+    MSVC
+      "-natvis:${CMAKE_SOURCE_DIR}/iree/iree.natvis"
+  )
+else()
+  iree_select_compiler_opts(IREE_DEFAULT_LINKOPTS
+    ALL
+      # TODO(benvanik): remove the ABSL usage here; we aren't abseil.
+      "${ABSL_DEFAULT_LINKOPTS}"
+    CLANG_OR_GCC
+      # Required by all modern software, effectively:
+      "-ldl"
+      "-lm"
+      ${_IREE_PTHREADS_LINKOPTS}
+      ${_IREE_LOGGING_LINKOPTS}
+    MSVC
+      "-natvis:${CMAKE_SOURCE_DIR}/iree/iree.natvis"
+  )
+endif()
 
 # Add to LINKOPTS on a binary to configure it for X/Wayland/Windows/etc
 # depending on the target cross-compilation platform.
