@@ -33,7 +33,7 @@ $ bazel run //iree/tools:iree-benchmark-module -- \
   --module_file=/tmp/module.fb \
   --driver=vmvx \
   --entry_function=abs \
-  --function_input=i32=-2
+  --function_input=f32=-2
 ```
 
 You'll see output like
@@ -80,7 +80,7 @@ $ ./bazel-bin/iree/tools/iree-benchmark-module \
   --module_file=/tmp/module.fb \
   --driver=vmvx \
   --entry_function=abs \
-  --function_input=i32=-2
+  --function_input=f32=-2
 ```
 
 ```shell
