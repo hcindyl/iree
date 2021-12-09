@@ -1,0 +1,4 @@
+// RUN: (mnist_static_c) | IreeFileCheck %s
+// CHECK-LABEL: Detected number
+// CHECK: 4
+// CHECK-LABEL: mnist_static_c passed
