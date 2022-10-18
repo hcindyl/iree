@@ -1,4 +1,4 @@
-name: Oneshot candidate release
+name: Test oneshot candidate release
 
 on:
   workflow_dispatch:
