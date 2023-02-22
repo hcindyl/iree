@@ -4,9 +4,8 @@
 # See https://llvm.org/LICENSE.txt for license information.
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-if(NOT IREE_TARGET_BACKEND_LLVM_CPU OR
-   NOT IREE_HAL_DRIVER_LOCAL_SYNC OR
-   NOT IREE_BUILD_COMPILER)
+if(NOT (IREE_TARGET_BACKEND_LLVM_CPU OR IREE_HOST_BIN_DIR) OR
+   NOT IREE_HAL_DRIVER_LOCAL_SYNC)
   return()
 endif()
 
