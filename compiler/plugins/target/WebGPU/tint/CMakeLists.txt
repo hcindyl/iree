@@ -28,5 +28,10 @@ set(TINT_BUILD_MSL_WRITER OFF CACHE BOOL "" FORCE)
 set(TINT_BUILD_SPV_WRITER OFF CACHE BOOL "" FORCE)
 set(TINT_BUILD_WGSL_WRITER ON CACHE BOOL "" FORCE)
 
+if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" AND
+   CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16)
+  add_compile_options("-Wno-unsafe-buffer-usage")
+endif()
+
 FetchContent_MakeAvailable(tint)
 FetchContent_GetProperties(tint SOURCE_DIR TINT_SOURCE)
